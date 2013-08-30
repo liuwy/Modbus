@@ -42,24 +42,6 @@
  * 2013/08/29    V1.0     刘文跃          初始创建
  *********************************************************************/
 
-/**
- *
- * @page  rights 版权声明
- * @version 1.0.0.1
- * @author 华康研发部 刘文跃
- *
- * |     时间     |   版本       |   作者      |    描述      |
- * |-------------|-------------|------------ |-------------|
- * |2002/08/05   |   V1.0      |   刘文跃     |    初始创建   |
- */
-
-/**
- * @mainpage Modbus协议栈
- * @ref rights
- * @ref MB.h
- * @defgroup modbus 数据类型
- */
-
 #ifndef _MB_H
 #define _MB_H
 
@@ -69,14 +51,15 @@
 
 /* ----------------------- Defines ------------------------------------------*/
 
-/** @ingroup 数据类型
+/** @ingroup enum_gtoup
  * @brief Modbus TCP 默认使用端口(502)
  */
+
 #define MB_TCP_PORT_USE_DEFAULT 0
 
 /* ----------------------- Type definitions ---------------------------------*/
 
-/** @ingroup modbus
+/** @ingroup enum_gtoup
  * @brief Modbus 主从模式 (Master/Slave).
  *
  * Modbus 协议栈有两种实现,Maseter或Slave. Master发送请求命令,接收应答命令.
@@ -89,7 +72,7 @@ typedef enum
     MB_SLAVE                    /**< 从栈模式. */
 } eMB_MSMode;
 
-/** @ingroup modbus
+/** @ingroup enum_gtoup
  * @brief Modbus 串行传输模式 (RTU/ASCII).
  *
  * Modbus 支持两种传输模式, ASCII 或 RTU. RTU传输速度较快,但是对硬件更多的要求同时要求网络
@@ -103,18 +86,17 @@ typedef enum
     MB_TCP                      /**< TCP 传输模式. */
 } eMBMode;
 
-
-/** @ingroup modbus
+/** @ingroup enum_gtoup
  * @brief 对寄存器的读写操作.
  */
 typedef enum
 {
-    MB_REG_READ,                /**< Read register values and pass to protocol stack. */
-    MB_REG_WRITE                /**< Update register values. */
+    MB_REG_READ,                /**< 读寄存器的值. */
+    MB_REG_WRITE                /**< 修改寄存器的值. */
 } eMBRegisterMode;
 
-/** @ingroup modbus
- * @brief eMBExceptionCode used by all function in the protocol stack.
+/** @ingroup enum_gtoup
+ * @brief  Slave 错误码 eMBExceptionCode .
  */
 
 typedef enum
@@ -130,24 +112,22 @@ typedef enum
     GATEWAY_TARGET_DEVICE_FAILED_TO_RESPOND      /**< 目标设备无法响应. */
 } eMBExceptionCode;
 
-/** @ingroup modbus
- * @brief Errorcodes used by all function in the protocol stack.
+/** @ingroup enum_gtoup
+ * @brief 所有协议栈函数的返回值使用 Errorcodes.
  */
 typedef enum
 {
-    MB_ENOERR,                  /**< no error. */
-    MB_ENOREG,                  /**< illegal register address. */
-    MB_EINVAL,                  /**< illegal argument. */
-    MB_EPORTERR,                /**< porting layer error. */
+    MB_ENOERR,                  /**< 没有错误. */
+    MB_ENOREG,                  /**< 非法的寄存器地址. */
+    MB_EINVAL,                  /**< 非法参数. */
     MB_ENORES,                  /**< insufficient resources. */
-    MB_EIO,                     /**< I/O error. */
-    MB_EILLSTATE,               /**< protocol stack in illegal state. */
-    MB_ETIMEDOUT                /**< timeout error occurred. */
+    MB_EIO,                     /**< I/O 错误. */
+    MB_EILLSTATE               /**< 协议栈错误的状态. */
 } eMBErrorCode;
 
 /* ----------------------- Parameter prototypes -----------------------------*/
-/** @ingroup modbus
- * @brief Errorcodes used by all function in the protocol stack.
+
+/** @brief eMBInitPara 协议栈初始化输入参数.
  */
 typedef struct
 {
@@ -158,36 +138,25 @@ typedef struct
 
 /* ----------------------- Function prototypes ------------------------------*/
 
-/** @ingroup modbus
- * @brief 初始化Modbus协议栈.
+/** @brief 初始化Modbus协议栈.
  *
- * @param eInitPara 初始化参数
+ * @param [in] eInitPara 初始化参数
  *      - @ref eMB_MSMode "eInitPara::msMode 主从模式"
  *      - @ref eMBMode "eInitPara::Mode 通讯模式"
  *      - eInitPara.ucSlaveAddress 协议栈地址
  * @return 如果没有错误这个函数将返回 eMBErrorCode::MB_ENOERR.
- *   The protocol is then in the disabled state and ready for activation
- *   by calling eMBEnable( ). Otherwise one of the following error codes
- *   is returned:
- *    - eMBErrorCode::MB_EINVAL If the slave address was not valid. Valid
- *        slave addresses are in the range 1 - 247.
- *    - eMBErrorCode::MB_EPORTERR IF the porting layer returned an error.
+ *  协议栈首先调用的函数
+ *      - eMBErrorCode::MB_EINVAL 枚举类型不存在的数据.从站地址无效,
+ *  有效地址在 1-127范围内.
+ *      - eMBErrorCode::MB_EPORTERR 枚举类型不存在的数据.从站地址无效,
  */
 eMBErrorCode    eMBInit( eMBInitPara eInitPara);
 
-/** @ingroup modbus
- * @brief Release resources used by the protocol stack.
+/** @brief 释放协议栈资源.
+ * 这个函数将释放协议栈所有资源,它不需是协议栈最后被调用的函数.
  *
- * This function disables the Modbus protocol stack and release all
- * hardware resources. It must only be called when the protocol stack
- * is disabled.
- *
- * @note Note all ports implement this function. A port which wants to
- *   get an callback must define the macro MB_PORT_HAS_CLOSE to 1.
- *
- * @return If the resources where released it return eMBErrorCode::MB_ENOERR.
- *   If the protocol stack is not in the disabled state it returns
- *   eMBErrorCode::MB_EILLSTATE.
+ * @return 如果资源被正确释放,它将返回 eMBErrorCode::MB_ENOERR.
+ *   如果协议栈没有关闭,它将返回 eMBErrorCode::MB_EILLSTATE.
  */
 eMBErrorCode    eMBClose( void );
 
