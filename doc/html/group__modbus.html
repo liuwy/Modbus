@@ -105,7 +105,7 @@
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 函数</h2></td></tr>
 <tr class="memitem:ga834f32c4ce260985eafa73be4d520018"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__modbus.html#ga9e7fce8c431cb0e521c67f7f36dd823d">eMBErrorCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__modbus.html#ga834f32c4ce260985eafa73be4d520018">eMBInit</a> (<a class="el" href="structe_m_b_init_para.html">eMBInitPara</a> eInitPara)</td></tr>
-<tr class="memdesc:ga834f32c4ce260985eafa73be4d520018"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the Modbus protocol stack.  <a href="#ga834f32c4ce260985eafa73be4d520018">更多...</a><br/></td></tr>
+<tr class="memdesc:ga834f32c4ce260985eafa73be4d520018"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化Modbus协议栈.  <a href="#ga834f32c4ce260985eafa73be4d520018">更多...</a><br/></td></tr>
 <tr class="separator:ga834f32c4ce260985eafa73be4d520018"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac20080d92be2934456e2a5d27cd36310"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__modbus.html#ga9e7fce8c431cb0e521c67f7f36dd823d">eMBErrorCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__modbus.html#gac20080d92be2934456e2a5d27cd36310">eMBClose</a> (void)</td></tr>
 <tr class="memdesc:gac20080d92be2934456e2a5d27cd36310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release resources used by the protocol stack.  <a href="#gac20080d92be2934456e2a5d27cd36310">更多...</a><br/></td></tr>
@@ -303,19 +303,19 @@
       </table>
 </div><div class="memdoc">
 
-<p>Initialize the Modbus protocol stack. </p>
+<p>初始化Modbus协议栈. </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">eInitPara</td><td>初始化参数<ul>
-<li><a class="el" href="group__modbus.html#ga2c2cd31419639048c5dee269f06c1413">eInitPara.msMode 主从模式</a></li>
-<li>eInitPara.Mode <a class="el" href="group__modbus.html#ga462d0d9396f02be6f9fd5b6f19463e61">eMBMode</a> 通讯模式</li>
+<li><a class="el" href="group__modbus.html#ga2c2cd31419639048c5dee269f06c1413">eInitPara::msMode 主从模式</a></li>
+<li><a class="el" href="group__modbus.html#ga462d0d9396f02be6f9fd5b6f19463e61">eInitPara::Mode 通讯模式</a></li>
 <li>eInitPara.ucSlaveAddress 协议栈地址 </li>
 </ul>
 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>If no error occurs the function returns eMBErrorCode::MB_ENOERR. The protocol is then in the disabled state and ready for activation by calling eMBEnable( ). Otherwise one of the following error codes is returned:<ul>
+<dl class="section return"><dt>返回</dt><dd>如果没有错误这个函数将返回 eMBErrorCode::MB_ENOERR. The protocol is then in the disabled state and ready for activation by calling eMBEnable( ). Otherwise one of the following error codes is returned:<ul>
 <li>eMBErrorCode::MB_EINVAL If the slave address was not valid. Valid slave addresses are in the range 1 - 247.</li>
 <li>eMBErrorCode::MB_EPORTERR IF the porting layer returned an error. </li>
 </ul>
@@ -326,7 +326,7 @@
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-生成于 2013年 八月 29日 星期四 16:58:33 , 为 Modbus使用  &#160;<a href="http://www.doxygen.org/index.html">
+生成于 2013年 八月 30日 星期五 13:56:44 , 为 Modbus使用  &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
